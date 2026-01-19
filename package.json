@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/FrankArceC/credito#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.90.1",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   }
 }
