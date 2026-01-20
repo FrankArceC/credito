@@ -80,6 +80,12 @@ app.post('/charges', async (req, res) => {
     });
 });
 
-app.listen(port, () => {
-  console.log(`Credit Service listening on port ${port}`);
-});
+// 3. Exportar para Vercel
+module.exports = app;
+
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Credit Service listening on port ${port}`);
+    });
+}
+
