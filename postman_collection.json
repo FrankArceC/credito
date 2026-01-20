@@ -12,12 +12,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/clients/3/credit",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/clients/3/credit",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "3000",
 					"path": [
 						"clients",
 						"3",
@@ -49,12 +47,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/charges",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/charges",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "3000",
 					"path": [
 						"charges"
 					]

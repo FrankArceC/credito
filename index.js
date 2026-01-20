@@ -1,9 +1,11 @@
 const express = require('express');
+const path = require('path');
 const { supabase } = require('./database');
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 1. Consultar Crédito (Para Ventas)
 app.get('/clients/:id/credit', async (req, res) => {

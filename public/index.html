@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Service Tester</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #333; }
+        h1 { text-align: center; color: #0070f3; }
+        .card { border: 1px solid #eaeaea; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #0070f3; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 1rem; width: 100%; }
+        button:hover { background: #0051a2; }
+        .result { margin-top: 1rem; padding: 1rem; background: #f7f7f7; border-radius: 4px; white-space: pre-wrap; word-break: break-all; font-family: monospace; display: none; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>💳 Credit Service Tester</h1>
+
+    <div class="card">
+        <h2>🔍 Consultar Crédito</h2>
+        <div class="form-group">
+            <label for="check-id">ID Cliente:</label>
+            <input type="number" id="check-id" placeholder="Ej: 3" value="3">
+        </div>
+        <button onclick="checkCredit()">Consultar</button>
+        <div id="check-result" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h2>💸 Registrar Cargo</h2>
+        <div class="form-group">
+            <label for="charge-id">ID Cliente:</label>
+            <input type="number" id="charge-id" placeholder="Ej: 3" value="3">
+        </div>
+        <div class="form-group">
+            <label for="amount">Monto:</label>
+            <input type="number" id="amount" placeholder="Ej: 50">
+        </div>
+        <button onclick="processCharge()">Procesar Cargo</button>
+        <div id="charge-result" class="result"></div>
+    </div>
+
+    <script>
+        async function checkCredit() {
+            const id = document.getElementById('check-id').value;
+            const resultDiv = document.getElementById('check-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Cargando...';
+
+            try {
+                const res = await fetch(`/clients/${id}/credit`);
+                const data = await res.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = res.ok ? 'result' : 'result error';
+            } catch (err) {
+                resultDiv.textContent = 'Error de red: ' + err.message;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function processCharge() {
+            const clientId = document.getElementById('charge-id').value;
+            const amount = document.getElementById('amount').value;
+            const resultDiv = document.getElementById('charge-result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Procesando...';
+
+            try {
+                const res = await fetch('/charges', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ clientId: parseInt(clientId), amount: parseFloat(amount) })
+                });
+                const data = await res.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = res.ok ? 'result' : 'result error';
+            } catch (err) {
+                resultDiv.textContent = 'Error de red: ' + err.message;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>
